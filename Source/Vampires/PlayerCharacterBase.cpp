@@ -18,6 +18,18 @@ void APlayerCharacterBase::BeginPlay()
 	
 }
 
+void APlayerCharacterBase::MoveForward(float Value)
+{
+	FVector XDirection = FRotationMatrix(GetActorRotation()).GetScaledAxis(EAxis::X);
+	AddMovementInput(XDirection, Value);
+}
+
+void APlayerCharacterBase::MoveRight(float Value)
+{
+	FVector YDirection = FRotationMatrix(GetActorRotation()).GetScaledAxis(EAxis::Y);
+	AddMovementInput(YDirection, Value);
+}
+
 // Called every frame
 void APlayerCharacterBase::Tick(float DeltaTime)
 {
@@ -29,6 +41,9 @@ void APlayerCharacterBase::Tick(float DeltaTime)
 void APlayerCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacterBase::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacterBase::MoveRight);
 
 }
 
